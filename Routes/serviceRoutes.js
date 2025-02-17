@@ -22,7 +22,7 @@ router.get("/category/:category", getServiceByCategory);  // 👈 Changed the ro
 router.post("/", addService);
 
 // Update Service
-router.patch("/update/:id", updateService);
+router.put("/update/:id", updateService);
 
 // Delete Service
 router.delete("/delete/:id", deleteService);
