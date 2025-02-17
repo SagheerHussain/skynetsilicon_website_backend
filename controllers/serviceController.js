@@ -77,10 +77,25 @@ const addService = async (req, res) => {
 const updateService = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedService = await Service.findByIdAndUpdate(id, req.body, { new: true });
+        let { category, ...updateData } = req.body;
+
+        // Check if category is a string (name) instead of ObjectId
+        if (category && !category.match(/^[0-9a-fA-F]{24}$/)) {
+            const categoryExists = await Category.findOne({ name: category });
+            if (!categoryExists) {
+                return res.status(400).json({ error: "Invalid category selected" });
+            }
+            category = categoryExists._id; // Convert category name to ObjectId
+        }
+
+        // Update service with converted category ID
+        const updatedService = await Service.findByIdAndUpdate(id, { ...updateData, category }, { new: true });
+
         if (!updatedService) return res.status(404).json({ message: "Service not found" });
+
         res.json(updatedService);
     } catch (err) {
+        console.error("Error updating service:", err.message);
         res.status(500).json({ error: err.message });
     }
 };
