@@ -13,9 +13,11 @@ const getServices = async (req, res) => {
 const getServiceById = async (req, res) => {
     try {
         const { id } = req.params; // Extract ID from request params
+        console.log(id)
 
         // Find the service by ID and populate the 'category' field
-        const service = await Service.findOne({id: id}).populate("category");
+        const service = await Service.findById(id).populate("category");
+        console.log(service)
 
         // If service is not found, return 404 error
         if (!service) {
@@ -34,7 +36,7 @@ const getServiceByCategory = async (req, res) => {
     try {
         const { category } = req.params;
         const formattedCategory = category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        
+
         const categoryExists = await Category.findOne({ name: formattedCategory });
         if (!categoryExists) {
             return res.status(400).json({ error: "Invalid category selected" });
