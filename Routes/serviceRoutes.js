@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { getServices,  getServiceByCategory, addService, updateService, deleteService } = require("../controllers/serviceController")
+const { getServices, getServiceById, getServiceByCategory, addService, updateService, deleteService } = require("../controllers/serviceController")
 
 // Get All Services
 router.get("/", getServices);
 
 // Get Service By Id
-// router.get("/:id", getServiceById)
+router.get("/:id", getServiceById);
 
 // Get Service By Category
 router.get("/:category", getServiceByCategory);

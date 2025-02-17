@@ -10,25 +10,25 @@ const getServices = async (req, res) => {
     }
 };
 
-// const getServiceById = async (req, res) => {
-//     try {
-//         const { id } = req.params; // Extract ID from request params
+const getServiceById = async (req, res) => {
+    try {
+        const { id } = req.params; // Extract ID from request params
 
-//         // Find the service by ID and populate the 'category' field
-//         const service = await Service.findById(id).populate("category");
+        // Find the service by ID and populate the 'category' field
+        const service = await Service.findOne({id: id}).populate("category");
 
-//         // If service is not found, return 404 error
-//         if (!service) {
-//             return res.status(404).json({ message: "Service not found" });
-//         }
+        // If service is not found, return 404 error
+        if (!service) {
+            return res.status(404).json({ message: "Service not found" });
+        }
 
-//         // Return the service data
-//         res.json(service);
-//     } catch (err) {
-//         console.error("Error fetching service by ID:", err.message);
-//         res.status(500).json({ error: "Internal Server Error" });
-//     }
-// };
+        // Return the service data
+        res.json(service);
+    } catch (err) {
+        console.error("Error fetching service by ID:", err.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 
 const getServiceByCategory = async (req, res) => {
     try {
@@ -94,4 +94,4 @@ const deleteService = async (req, res) => {
     }
 };
 
-module.exports = { getServices, getServiceByCategory, addService, updateService, deleteService };
+module.exports = { getServices, getServiceById, getServiceByCategory, addService, updateService, deleteService };
