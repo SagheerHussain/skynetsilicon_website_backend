@@ -28,9 +28,9 @@ router.get("/:category", getPortfolioByCategory);
 router.post("/", upload.single("file"), addPortfolio);
 
 // Update Portfolio
-router.patch("/:id", updatePortfolio);
+router.put("/update/:id", updatePortfolio);
 
 // Delete Portfolio
-router.delete("/:id", deletePortfolio);
+router.delete("/delete/:id", deletePortfolio);
 
 module.exports = router;
