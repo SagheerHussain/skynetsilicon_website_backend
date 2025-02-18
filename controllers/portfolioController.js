@@ -10,18 +10,31 @@ const getPortfolios = async (req, res) => {
     }
 };
 
+const getPortfolioById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const portfolio = await Portfolio.findById(id).populate("category");
+        if (!portfolio) {
+            return res.status(404).json({ message: "Service not found" });
+        }
+        res.json(portfolio);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+
 const getPortfolioByCategory = async (req, res) => {
     try {
         const { category } = req.params;
         const portfolios = await Portfolio.find({ category });
-        res.json(portfolios);
+        res.json (portfolios);
     } catch (err) {
         res.status(500).json({ error: err.message });
-    }cd
+    }
 };
 
 const addPortfolio = async (req, res) => {
- 
     try {
         const { title, description, category } = req.body; // Getting text fields
         const file = req.file ? req.file.filename : null; // Getting uploaded file
@@ -52,7 +65,13 @@ const addPortfolio = async (req, res) => {
 const updatePortfolio = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedPortfolio = await Portfolio.findByIdAndUpdate(id, req.body, { new: true });
+        console.log(id, req.body)
+        const updatedPortfolio = await Portfolio.findByIdAndUpdate(
+            id,   // Query to find the document
+            req.body,      // Data to update
+            { new: true }  // Options
+        );
+        console.log(updatedPortfolio)
         if (!updatedPortfolio) return res.status(404).json({ message: "Portfolio not found" });
         res.json(updatedPortfolio);
     } catch (err) {
@@ -71,4 +90,4 @@ const deletePortfolio = async (req, res) => {
     }
 };
 
-module.exports = { getPortfolios, getPortfolioByCategory, addPortfolio, updatePortfolio, deletePortfolio };
+module.exports = { getPortfolios, getPortfolioById, getPortfolioByCategory, addPortfolio, updatePortfolio, deletePortfolio };

@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
-const { getPortfolios, getPortfolioByCategory, addPortfolio, updatePortfolio, deletePortfolio } = require("../controllers/portfolioController");
+const { getPortfolios, getPortfolioById, getPortfolioByCategory, addPortfolio, updatePortfolio, deletePortfolio } = require("../controllers/portfolioController");
 
 // Configure Multer for File Uploads
 const storage = multer.diskStorage({
@@ -21,8 +21,11 @@ const upload = multer({ storage });
 // Get All Portfolio
 router.get("/", getPortfolios);
 
+// Get Portfolio By id
+router.get("/id/:id", getPortfolioById);
+
 // Get Portfolio By Category
-router.get("/:category", getPortfolioByCategory);
+router.get("/category/:category", getPortfolioByCategory);
 
 // Add Portfolio
 router.post("/", upload.single("file"), addPortfolio);

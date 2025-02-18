@@ -11,8 +11,9 @@ const getCategories = async (req, res) => {
 
 const getCategoryByName = async (req, res) => {
     try {
-        const { name } = req.params;
-        const category = await categoryModal.findOne({ name });
+        const { id } = req.params;
+        console.log(id)
+        const category = await categoryModal.findOne({ _id: id });
         res.json(category);
     } catch (error) {
         res.status(500).json({ error: err.message });
@@ -35,4 +36,32 @@ const addCategory = async (req, res) => {
     }
 }
 
-module.exports = { getCategories, getCategoryByName, addCategory };
+const updateCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Update service with converted category ID
+        const updatedService = await categoryModal.findByIdAndUpdate(id, req.body, { new: true });
+
+        if (!updatedService) return res.status(404).json({ message: "Service not found" });
+        console.log(updatedService)
+
+        res.json(updatedService);
+    } catch (err) {
+        console.error("Error updating service:", err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const deleteCategory = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedService = await categoryModal.findByIdAndDelete(id);
+        if (!deletedService) return res.status(404).json({ message: "Service not found" });
+        res.json({ message: "Service deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+module.exports = { getCategories, getCategoryByName, addCategory, updateCategory, deleteCategory };
