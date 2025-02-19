@@ -38,7 +38,8 @@ const addPortfolio = async (req, res) => {
     try {
         const { title, description, category } = req.body; // Getting text fields
         const file = req.file ? req.file.filename : null; // Getting uploaded file
-        console.log(file, title, description, category)
+        console.log("Received Portfolio Request:", req.body); // Debugging
+        console.log("File:", req.file); // Debugging
         // console.log("Received Data:", title, description, category, file); // Debugging
 
         // if (!file) {

@@ -8,7 +8,7 @@ const { getPortfolios, getPortfolioById, getPortfolioByCategory, addPortfolio, u
 // Configure Multer for File Uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadPath = "public/Images";
+        const uploadPath = "/tmp";
         cb(null, uploadPath); // Ensure this folder exists
     },
     filename: (req, file, cb) => {
