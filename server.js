@@ -17,22 +17,12 @@ const serviceRoutes = require("./Routes/serviceRoutes");
 const categoryRoutes = require("./Routes/categoryRoutes");
 
 // Middlewares
-app.use((req, res, next) => {
-    const allowedOrigins = ["http://localhost:5173", "https://skynetsilicon.com"];
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader("Access-Control-Allow-Origin", origin);
-    }
-    
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(200); // Handle preflight requests
-    }
-
-    next();
-});
+const corsOptions = {
+    origin: ["http://localhost:5173", "https://skynetsilicon.com"],
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
+    allowedHeaders: "Content-Type, Authorization",
+};
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "public/Images")));
