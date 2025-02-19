@@ -97,7 +97,7 @@ const deleteManyPortfolio = async (req, res) => {
             return res.status(400).json({ message: "No IDs provided" });
         }
 
-        await Service.deleteMany({ _id: { $in: ids } });
+        await Portfolio.deleteMany({ _id: { $in: ids } });
 
         res.status(200).json({ message: "Portfolio deleted successfully" });
     } catch (error) {
