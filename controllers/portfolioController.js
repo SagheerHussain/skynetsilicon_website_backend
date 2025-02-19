@@ -38,25 +38,26 @@ const addPortfolio = async (req, res) => {
     try {
         const { title, description, category } = req.body; // Getting text fields
         const file = req.file ? req.file.filename : null; // Getting uploaded file
+        console.log(file, title, description, category)
+        // console.log("Received Data:", title, description, category, file); // Debugging
 
-        console.log("Received Data:", title, description, category, file); // Debugging
-        if (!file) {
-            return res.status(400).json({ error: "File is required" });
-        }
+        // if (!file) {
+        //     return res.status(400).json({ error: "File is required" });
+        // }
 
-        // Convert category string into ObjectId
-        const categoryExists = await Category.findOne({ name: category });
-        if (!categoryExists) {
-            return res.status(400).json({ error: "Invalid category selected" });
-        }
+        // // Convert category string into ObjectId
+        // const categoryExists = await Category.findOne({ name: category });
+        // if (!categoryExists) {
+        //     return res.status(400).json({ error: "Invalid category selected" });
+        // }
 
-        const newPortfolio = Portfolio.create({
-            src: file,
-            title,
-            description,
-            category: categoryExists._id // Store ObjectId instead of string
-        });
-        res.status(201).json(newPortfolio);
+        // const newPortfolio = Portfolio.create({
+        //     src: file,
+        //     title,
+        //     description,
+        //     category: categoryExists._id // Store ObjectId instead of string
+        // });
+        // res.status(201).json(newPortfolio);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -90,4 +91,21 @@ const deletePortfolio = async (req, res) => {
     }
 };
 
-module.exports = { getPortfolios, getPortfolioById, getPortfolioByCategory, addPortfolio, updatePortfolio, deletePortfolio };
+const deleteManyPortfolio = async (req, res) => {
+    try {
+        const ids = req.query.ids.split(','); // Convert query string to array
+        console.log(ids)
+        if (!ids || ids.length === 0) {
+            return res.status(400).json({ message: "No IDs provided" });
+        }
+
+        await Service.deleteMany({ _id: { $in: ids } });
+
+        res.status(200).json({ message: "Portfolio deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting portfolios:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+module.exports = { getPortfolios, getPortfolioById, getPortfolioByCategory, addPortfolio, updatePortfolio, deletePortfolio, deleteManyPortfolio };

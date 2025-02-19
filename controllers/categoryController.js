@@ -64,4 +64,21 @@ const deleteCategory = async (req, res) => {
     }
 };
 
-module.exports = { getCategories, getCategoryByName, addCategory, updateCategory, deleteCategory };
+const deleteManyCategories = async (req, res) => {
+    try {
+        const ids = req.query.ids.split(','); // Convert query string to array
+        console.log(ids)
+        if (!ids || ids.length === 0) {
+            return res.status(400).json({ message: "No IDs provided" });
+        }
+
+        await categoryModal.deleteMany({ _id: { $in: ids } });
+
+        res.status(200).json({ message: "Categories deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting categories:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+module.exports = { getCategories, getCategoryByName, addCategory, updateCategory, deleteCategory, deleteManyCategories };

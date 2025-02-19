@@ -111,4 +111,21 @@ const deleteService = async (req, res) => {
     }
 };
 
-module.exports = { getServices, getServiceById, getServiceByCategory, addService, updateService, deleteService };
+const deleteManyServices = async (req, res) => {
+    try {
+        const ids = req.query.ids.split(','); // Convert query string to array
+        console.log(ids)
+        if (!ids || ids.length === 0) {
+            return res.status(400).json({ message: "No IDs provided" });
+        }
+
+        await Service.deleteMany({ _id: { $in: ids } });
+
+        res.status(200).json({ message: "Services deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting services:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+module.exports = { getServices, getServiceById, getServiceByCategory, addService, updateService, deleteService, deleteManyServices };

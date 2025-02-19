@@ -6,7 +6,8 @@ const {
     getServiceByCategory, 
     addService, 
     updateService, 
-    deleteService 
+    deleteService,
+    deleteManyServices 
 } = require("../controllers/serviceController");
 
 // Get All Services
@@ -26,5 +27,8 @@ router.put("/update/:id", updateService);
 
 // Delete Service
 router.delete("/delete/:id", deleteService);
+
+// Delete Many Services
+router.delete("/delete-multiple", deleteManyServices);
 
 module.exports = router;
