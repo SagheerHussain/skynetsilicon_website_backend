@@ -11,6 +11,7 @@ require("dotenv").config();
 mongoose.connect(`${process.env.MONGO_URL}`);
 
 // Routes
+const authRoutes = require("./Routes/authRoutes");
 const portfolioRoutes = require("./Routes/portfolioRoutes");
 const serviceRoutes = require("./Routes/serviceRoutes");
 const categoryRoutes = require("./Routes/categoryRoutes");
@@ -32,15 +33,13 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "public/Images")));
 
 // Routing
+app.use("/api/auth", authRoutes)
 app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/category", categoryRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "Hello Skynet Server" })
-})
-app.get("/api/test", (req, res) => {
-    res.json({ message: "Hello Skynet Server Shayan" })
 })
 
 // Recaptcha
