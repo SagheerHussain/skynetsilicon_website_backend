@@ -31,7 +31,7 @@ const getLoginAdmin = async (req, res) => {
 
         await bcrypt.compare(password, isExist.password, async (err, result) => {
             if (result) {
-                const token = await jwt.sign({ email }, process.env.JWT_KEY);
+                const token = await jwt.sign({ email }, process.env.JWT_KEY, { expiresIn: '1d' });
                 res.status(200).json({ success: true, token })
             } else res.status(404).json({ success: false, message: "Password is incorrect" });
         })
@@ -41,4 +41,22 @@ const getLoginAdmin = async (req, res) => {
     }
 }
 
-module.exports = { getRegisterAdmin, getLoginAdmin }
+const getUserDetails = async (req, res) => {
+    try {
+        const token = req.headers.authorization;
+        if (!token) return res.status(401).json({ success: false, message: "No token provided" });
+
+        await jwt.verify(token, process.env.JWT_KEY, async (err, decoded) => {
+            if (err) return res.status(401).json({ success: false, message: "Invalid or expired token" });
+            
+            const user = await AuthModal.findOne({ email: decoded.email }).select("-password");
+            if (!user) return res.status(404).json({ success: false, message: "User does not exist" });
+            
+            res.status(200).json({ success: true, user, tokenExpiresIn: decoded.exp });
+        });
+    } catch (error) {
+        res.status(404).json({ success: false, message: "User is not exist" });
+    }
+}
+
+module.exports = { getRegisterAdmin, getLoginAdmin, getUserDetails }
