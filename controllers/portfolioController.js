@@ -37,8 +37,8 @@ const getPortfolioByCategory = async (req, res) => {
 const addPortfolio = async (req, res) => {
     try {
         const { title, description, category } = req.body; // Getting text fields
-        const file = req.file ? req.file.filename : null; // Getting uploaded file
-        
+        const file = req.file ? req.file.path : null; // Getting uploaded file URL from Cloudinary
+
         if (!file) {
             return res.status(400).json({ error: "File is required" });
         }
@@ -49,17 +49,19 @@ const addPortfolio = async (req, res) => {
             return res.status(400).json({ error: "Invalid category selected" });
         }
 
-        const newPortfolio = Portfolio.create({
-            src: file,
+        const newPortfolio = await Portfolio.create({
+            src: file, // Store Cloudinary URL
             title,
             description,
             category: categoryExists._id // Store ObjectId instead of string
         });
+
         res.status(201).json(newPortfolio);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
+
 
 const updatePortfolio = async (req, res) => {
     try {

@@ -27,8 +27,8 @@ const corsOptions = {
 
 // Apply Middleware
 app.use(cors(corsOptions));
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json()); // Parse JSON (✅ For JSON only)
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data (✅ Optional)
 app.use("/uploads", express.static("uploads"));
 
 // Routes
