@@ -36,6 +36,7 @@ const getPortfolioByCategory = async (req, res) => {
 
 const addPortfolio = async (req, res) => {
     try {
+        // Validate if an image was uploaded
         if (!req.file) {
             return res.status(400).json({ error: "File is required" });
         }
@@ -43,10 +44,18 @@ const addPortfolio = async (req, res) => {
         const { title, description, category } = req.body;
         const imageUrl = req.file.path; // ✅ Cloudinary URL
 
+        // ✅ Find the category by name and get its ObjectId
+        const categoryExists = await Category.findOne({ name: category });
+
+        if (!categoryExists) {
+            return res.status(400).json({ error: "Invalid category selected" });
+        }
+
+        // ✅ Now `categoryExists._id` is the correct ObjectId
         const newPortfolio = await Portfolio.create({
             title,
             description,
-            category,
+            category: categoryExists._id, // ✅ Use ObjectId instead of string
             src: imageUrl
         });
 
