@@ -29,7 +29,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-app.use("/uploads", express.static("/tmp")); // Serving files from /tmp
+app.use("/uploads", express.static("uploads"));
 
 // Routes
 const authRoutes = require("./Routes/authRoutes");
