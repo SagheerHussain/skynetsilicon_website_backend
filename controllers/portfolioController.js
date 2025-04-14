@@ -41,7 +41,7 @@ const addPortfolio = async (req, res) => {
             return res.status(400).json({ error: "File is required" });
         }
 
-        const { title, description, category } = req.body;
+        const { title, description, category, link } = req.body;
         const imageUrl = req.file.path; // ✅ Cloudinary URL
 
         // ✅ Find the category by name and get its ObjectId
@@ -56,6 +56,7 @@ const addPortfolio = async (req, res) => {
             title,
             description,
             category: categoryExists._id, // ✅ Use ObjectId instead of string
+            link,
             src: imageUrl
         });
 
