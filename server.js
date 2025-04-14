@@ -11,7 +11,7 @@ require("dotenv").config();
 mongoose.connect(`${process.env.MONGO_URL}`);
 
 // Allowed Origins
-const allowedOrigins = ["http://localhost:5173", "https://skynetsilicon.com"];
+const allowedOrigins = ["http://localhost:5173", "https://www.skynetsilicon.com"];
 
 const corsOptions = {
     origin: function (origin, callback) {
