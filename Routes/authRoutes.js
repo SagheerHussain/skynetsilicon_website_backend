@@ -11,9 +11,10 @@ router.post("/register", getRegisterAdmin);
 // Get User
 router.get("/user", getUserDetails);
 
-// Forget Passowrd
+// Forget Password
 router.post("/forget-password", forgetPassword);
 
+// Reset Password
 router.post("/reset-password/:token", resetPassword);
 
 module.exports = router;
