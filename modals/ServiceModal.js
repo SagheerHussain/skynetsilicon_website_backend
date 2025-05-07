@@ -20,4 +20,6 @@ const serviceSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
 });
 
+serviceSchema.index({ category: 1 });
+
 module.exports = mongoose.model("Service", serviceSchema);

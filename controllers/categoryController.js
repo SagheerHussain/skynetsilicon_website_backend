@@ -20,6 +20,33 @@ const getCategoryByName = async (req, res) => {
   }
 };
 
+const getSpecificCategories = async (req, res) => {
+  try {
+    const categoryNames = [
+      "Web Applications",
+      "App Development",
+      "Web Development",
+      "Search Engine Optimization",
+      "Content Writing",
+      "Graphic Designing",
+      "Ecommerce Development",
+      "Logo Design",
+    ];
+
+    // Case-insensitive matching
+    const categories = await categoryModal
+      .find({
+        name: { $in: categoryNames },
+      })
+      .select("name slug")
+      .lean();
+
+    res.status(200).json({ data: categories, message: "Categories fetched successfully", success: true });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error", message: error.message, success: false });
+  }
+};
+
 const addCategory = async (req, res) => {
   try {
     console.log("Request Body:", req.body); // Debugging
@@ -88,6 +115,7 @@ const deleteManyCategories = async (req, res) => {
 module.exports = {
   getCategories,
   getCategoryByName,
+  getSpecificCategories,
   addCategory,
   updateCategory,
   deleteCategory,
