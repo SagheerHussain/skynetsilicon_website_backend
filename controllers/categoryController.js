@@ -5,7 +5,7 @@ const getCategories = async (req, res) => {
     const categories = await categoryModal.find();
     res.json(categories);
   } catch (error) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -16,7 +16,7 @@ const getCategoryByName = async (req, res) => {
     const category = await categoryModal.findOne({ _id: id });
     res.json(category);
   } catch (error) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -108,7 +108,6 @@ const deleteManyCategories = async (req, res) => {
 
     res.status(200).json({ message: "Categories deleted successfully" });
   } catch (error) {
-    console.error("Error deleting categories:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
