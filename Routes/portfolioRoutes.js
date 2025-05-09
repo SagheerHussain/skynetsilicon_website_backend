@@ -17,7 +17,7 @@ router.get("/category/:category", getPortfolioByCategory);
 router.post("/", upload.single("image"), addPortfolio);
 
 // Update Portfolio
-router.put("/update/:id", updatePortfolio);
+router.put("/update/:id", upload.single("image"), updatePortfolio);
 
 // Delete Portfolio
 router.delete("/delete/:id", deletePortfolio);

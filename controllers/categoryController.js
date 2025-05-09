@@ -31,6 +31,7 @@ const getSpecificCategories = async (req, res) => {
       "Graphic Designing",
       "Ecommerce Development",
       "Logo Design",
+      "Wordpress Development"
     ];
 
     // Case-insensitive matching
@@ -41,7 +42,7 @@ const getSpecificCategories = async (req, res) => {
       .select("name slug")
       .lean();
 
-    res.status(200).json({ data: categories, message: "Categories fetched successfully", success: true });
+    res.status(200).json(categories);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error", message: error.message, success: false });
   }

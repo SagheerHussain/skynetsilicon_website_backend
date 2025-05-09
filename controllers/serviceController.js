@@ -26,6 +26,7 @@ const getServiceById = async (req, res) => {
 
 const getServiceByCategory = async (req, res) => {
   const { category } = req.params;
+  console.log("category", category)
   const cacheKey = `service-${category}`;
 
   const cached = cache.get(cacheKey);
