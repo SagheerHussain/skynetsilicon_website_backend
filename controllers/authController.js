@@ -91,7 +91,7 @@ const forgetPassword = async (req, res) => {
                 from: `${process.env.MY_GMAIL}`,
                 to: email,
                 subject: 'Reset Your Password',
-                text: `Click on this link to reset your password : http://localhost:5173/reset-password/${token}`
+                text: `Click on this link to reset your password : https://www.skynetsilicon.com/reset-password/${token}`
             };
 
             await transporter.sendMail(mailOptions);

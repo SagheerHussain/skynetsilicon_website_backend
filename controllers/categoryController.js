@@ -23,15 +23,10 @@ const getCategoryByName = async (req, res) => {
 const getSpecificCategories = async (req, res) => {
   try {
     const categoryNames = [
-      "Web Applications",
-      "App Development",
-      "Web Development",
-      "Search Engine Optimization",
-      "Content Writing",
+      "MERN",
+      "Wordpress Development",
+      "Flutter",
       "Graphic Designing",
-      "Ecommerce Development",
-      "Logo Design",
-      "Wordpress Development"
     ];
 
     // Case-insensitive matching
